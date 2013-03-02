@@ -11,13 +11,23 @@ import java.io.*;
 import servicos.TrataReq;
 
 public class Lowbase {
-	
+
 	static int PORT;
 	/*guarda os endereços dos servidores que informarem conexão
 	* [ip][porta] */
-	String[][] endServidor = new String[10][2];
+	String[][] endServidor;
 	//registra a quantidade de conexões em cada servidor online
-	int[] conexoes = new int[10];
+	static int[] conexoes;
+	
+	public Lowbase() {
+		endServidor = new String[10][2];
+		//registra a quantidade de conexões em cada servidor online
+		conexoes = new int[10];
+		
+		//zera o log de conexões
+		for (int i=0;i<10;i++)
+			conexoes[i] = -1;
+	}
 
 
 	/* Métodos do LowBase */
@@ -25,7 +35,7 @@ public class Lowbase {
 	// Informa o servidor online com menos conexões para enviar ao usuário
 	public int menosOcupado(){
 		int menor = 11;
-		int retorno = -1
+		int retorno = -1;
 		for (int i=0; i<10; i++) {
 			if (conexoes[i] != -1 && conexoes[i] < menor) {
 				menor = i;
@@ -47,19 +57,14 @@ public class Lowbase {
 			}
 		}
 		return setado;
-	}
 		
 
-	
-	public static void main(String[] args) {
 
-		//zera o log de conexões
-		for (int i=0;i<10;i++)
-			conexoes[i] == -1;
+	public void tratarConexao() {
 		
 		//Setando a porta para conexão na inicialização
 		Scanner p = new Scanner(System.in);
-		System.out.print("Porta: ");
+		System.out.print("Porta LB: ");
 		PORT = Integer.parseInt(p.nextLine());
 		System.out.println("Iniciando na porta " + PORT + "...");
 		
@@ -77,6 +82,14 @@ public class Lowbase {
 		} catch (IOException ioe) {
 			System.err.println("Erro de I/O - " + ioe);
 		}
+
+	}
+
+
+	public static void main(String[] args) {
+
+		Lowbase server = new Lowbase();
+		server.tratarConexao();
 
 	}
 

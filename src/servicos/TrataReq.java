@@ -1,9 +1,13 @@
+/**
+ * @author SeuRAUL
+ */
+
 package servicos;
 
 import java.io.*;
-import java.net.Socket;
-import menssagens.mensagem;
-import clientes.Lowbase;
+import java.net.*;
+import mensagens.Mensagem;
+//import clientes.*;
 
 public class TrataReq extends Thread {
 	private Socket conexao;
@@ -21,20 +25,45 @@ public class TrataReq extends Thread {
 	}
 	
 	public void run() {
-		mensagem recebida = new mensagem();
-		mensagem aEnviar = new mensagem();
+		Mensagem recebida = new Mensagem();
+		Mensagem aEnviar = new Mensagem();
 		while(true){
 			try {
-				recebida = (mensagem)input.readObject();
-				String endereco = recebida.getAddress().toString();
-				String mensageiro = recebida.getMenssageiro().toString();
+				recebida = (Mensagem)input.readObject();
+				String mensageiro = recebida.getMensageiro().toString();
+				String msg = recebida.getInfo().toString();
 
+				// USER !!
 				if (mensageiro.equals("USER")) {
+					if (msg.equals("CONECTAR")) {
+						System.out.println("USER CONNECTED");
+						aEnviar.setMensageiro("LB");
+						aEnviar.setInfo("CONECTOU!");
+						output.writeObject(aEnviar);
+						output.flush();
+					}
+					else if (msg.equals("getSERVIDOR")){
+						System.out.println("Enviando servidor ao user...");
+						aEnviar.setMensageiro("LB");
+						aEnviar.setInfo("setSERVER..."); /* !!!!!!!!!! */
+						output.writeObject(aEnviar);
+						output.flush();
+					}
+				}
 
+				// SERVER !!
+				else if(mensageiro.equals("SERVER")) {
+					if( msg.equals("ON") {
+						
+					}
 				}
 			}
-			catch (ClassNotFoundException e) { }
-			catch (IOException e) { }
+			catch (ClassNotFoundException e) {
+				//e.printStackTrace();
+			}
+			catch (IOException e) {
+				//e.printStackTrace();
+			}
 		}
 	}
 }
