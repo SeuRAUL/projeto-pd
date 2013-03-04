@@ -35,8 +35,17 @@ public class Treinos {
 		this.mestre = mestre;
 	}
 
-	public void setLocal (String local) {
+	public void setLocal(String local) {
 		this.local = local;
+	}
+	
+	public String to_str() {
+		String treino = this.data + ";" + this.hora + ";" + this.mestre + ";" + this.local + ";";
+		return treino;
+	}
+	
+	public void to_obj(String treino) {
+		
 	}
 
 }

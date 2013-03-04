@@ -7,7 +7,7 @@ package servicos;
 import java.io.*;
 import java.net.*;
 import mensagens.Mensagem;
-//import clientes.*;
+import clientes.*;
 
 public class TrataReq extends Thread {
 	private Socket conexao;
@@ -44,17 +44,23 @@ public class TrataReq extends Thread {
 					}
 					else if (msg.equals("getSERVIDOR")){
 						System.out.println("Enviando servidor ao user...");
-						aEnviar.setMensageiro("LB");
-						aEnviar.setInfo("setSERVER..."); /* !!!!!!!!!! */
+						aEnviar.edit("LB", "CONECTE:" + Lowbase.conectarMenosOcupado());
+						/*aEnviar.setMensageiro("LB");
+						aEnviar.setInfo("CONECTE:" + Lowbase.conectarMenosOcupado());*/
 						output.writeObject(aEnviar);
 						output.flush();
 					}
 				}
 
 				// SERVER !!
-				else if(mensageiro.equals("SERVER")) {
-					if( msg.equals("ON") {
+				if(mensageiro.equals("SERVER")) {
+					if( msg.contains("ON")) {
+						System.out.println(msg);
 						
+						 if ( Lowbase.setServidor(conexao.getInetAddress().getHostName(), msg.substring(3)) )
+							 System.out.println("Setou!");
+						
+						Lowbase.getServidores();
 					}
 				}
 			}

@@ -15,7 +15,7 @@ public class Lowbase {
 	static int PORT;
 	/*guarda os endereços dos servidores que informarem conexão
 	* [ip][porta] */
-	String[][] endServidor;
+	static String[][] endServidor;
 	//registra a quantidade de conexões em cada servidor online
 	static int[] conexoes;
 	
@@ -33,7 +33,7 @@ public class Lowbase {
 	/* Métodos do LowBase */
 
 	// Informa o servidor online com menos conexões para enviar ao usuário
-	public int menosOcupado(){
+	public static String conectarMenosOcupado(){
 		int menor = 11;
 		int retorno = -1;
 		for (int i=0; i<10; i++) {
@@ -42,31 +42,37 @@ public class Lowbase {
 				retorno = i;
 			}
 		}
-		return retorno;
+		if (retorno != -1){
+			return endServidor[retorno][0] + ":" + endServidor[retorno][1];
+		}
+		return "Nenhum servidor disponível";
 	}
 
 	//Insere um servidor à lista de conectados
-	public boolean setServidor(String ip, String port){
+	public static boolean setServidor(String ip, String port){
 		boolean setado = false;
 		for (int i=0;i<10;i++) {
-			if(conexoes[1] == -1) { // -1 indica posição livre
+			if(conexoes[i] == -1) { // -1 indica posição livre
 				endServidor[i][0] = ip;
 				endServidor[i][1] = port;
+				conexoes[i]++;
 				setado = true;
 				break;
 			}
 		}
 		return setado;
-		
+	}
+	
+	public static void getServidores() {
+		for (int i=0;i<10;i++) {
+			if(conexoes[i] >= 0 ) {
+				System.out.println(endServidor[i][0] + ":" + endServidor[i][1]);
+			}
+		}
+	}
 
 
 	public void tratarConexao() {
-		
-		//Setando a porta para conexão na inicialização
-		Scanner p = new Scanner(System.in);
-		System.out.print("Porta LB: ");
-		PORT = Integer.parseInt(p.nextLine());
-		System.out.println("Iniciando na porta " + PORT + "...");
 		
 		//Inicializando Controlador
 		try {
@@ -88,6 +94,12 @@ public class Lowbase {
 
 	public static void main(String[] args) {
 
+		//Setando a porta para conexão na inicialização
+		Scanner p = new Scanner(System.in);
+		System.out.print("Porta LB: ");
+		PORT = Integer.parseInt(p.nextLine());
+		System.out.println("Iniciando na porta " + PORT + "...");
+		
 		Lowbase server = new Lowbase();
 		server.tratarConexao();
 

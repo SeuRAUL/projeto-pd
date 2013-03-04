@@ -70,7 +70,7 @@ public class User {
 		try {
 			input = new ObjectInputStream(conexao.getInputStream());
 			while (true) {
-								
+					
 				msg = (Mensagem) input.readObject();
 				System.out.println("Info recebida: " + msg.getInfo());
 				if(msg.getInfo().equals("CONECTOU!")){
@@ -79,7 +79,8 @@ public class User {
 					output.writeObject(msg);
 					output.flush();
 				}
-				if (msg.getInfo().equals("getSERVIDOR")){
+				System.out.println("Info recebida [conecte?]: " + msg.getInfo());
+				if (msg.getInfo().contains("CONECTE")) { //.equals("getSERVIDOR")){
 					System.out.println("SERVIDOR RECEBIDO");
 				}
 			}
