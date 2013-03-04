@@ -14,6 +14,7 @@ public class User {
 
 	static Socket conexao;
 	static int PORT;
+	static int sPORT;
 	static boolean mestre;
 	static ObjectInputStream input;
 	static ObjectOutputStream output;
@@ -79,9 +80,12 @@ public class User {
 					output.writeObject(msg);
 					output.flush();
 				}
-				System.out.println("Info recebida [conecte?]: " + msg.getInfo());
-				if (msg.getInfo().contains("CONECTE")) { //.equals("getSERVIDOR")){
+				if (msg.getInfo().contains("CONECTE")) {
 					System.out.println("SERVIDOR RECEBIDO");
+					System.out.println(msg.getInfo());
+					if (!msg.getInfo().contains("Nenhum")) {
+						
+					}
 				}
 			}
 			

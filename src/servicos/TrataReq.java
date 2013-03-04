@@ -37,16 +37,20 @@ public class TrataReq extends Thread {
 				if (mensageiro.equals("USER")) {
 					if (msg.equals("CONECTAR")) {
 						System.out.println("USER CONNECTED");
-						aEnviar.setMensageiro("LB");
-						aEnviar.setInfo("CONECTOU!");
+						aEnviar.edit("LB", "CONECTOU!");
+						/*aEnviar.setMensageiro("LB");
+						aEnviar.setInfo("CONECTOU!");*/
 						output.writeObject(aEnviar);
 						output.flush();
 					}
-					else if (msg.equals("getSERVIDOR")){
+					else if (msg.equals("getSERVIDOR")) {
 						System.out.println("Enviando servidor ao user...");
-						aEnviar.edit("LB", "CONECTE:" + Lowbase.conectarMenosOcupado());
+						aEnviar.edit("LB", "CONECTE:" + Lowbase.conectarMenosOcupado().toString());
+						System.out.println(aEnviar.getInfo());
+						System.out.println(Lowbase.conectarMenosOcupado());
 						/*aEnviar.setMensageiro("LB");
 						aEnviar.setInfo("CONECTE:" + Lowbase.conectarMenosOcupado());*/
+						output.reset(); //.writeObject(aEnviar);
 						output.writeObject(aEnviar);
 						output.flush();
 					}
